@@ -1,0 +1,153 @@
+<?php
+	/*
+	 * Newsys
+	 * By Jared Yanovich <jaredy@closeedge.net>
+	 * Saturday, March 15, 2003 09:28:36 PM
+	 * newsys-config.inc - Newsys configuration file
+	 *
+	 * Consult the doc/cfg-options in the root newsys directory
+	 * for detailed explanations of the following directives.
+	 */
+
+	newsys_conf("time_format",		"D, M d, Y h:iA T");
+
+	newsys_conf("max_result_limit",		50);
+	newsys_conf("default_result_limit",	15);
+	newsys_conf("max_page_limit",		8);
+	newsys_conf("default_page_limit",	5);
+
+	newsys_conf("auth_type",		NEWSYS_AUTH_SESSION);
+
+	newsys_conf("allow_comments",		TRUE);
+	newsys_conf("hier_comments",		FALSE);
+	newsys_conf("max_comments",		20);
+
+	newsys_conf("use_rss",			TRUE);
+	newsys_conf("rss_icon",			"http://www.mysite.com/images/mysite-mini.gif");
+
+	newsys_conf("check_http_referer",	FALSE);
+
+	newsys_conf("email_check_addr",		TRUE);
+
+	newsys_conf("story_word_length",	30);
+	newsys_conf("story_auto_urls",		TRUE);
+	newsys_conf("story_auto_url_tlds",	array("com","co\\.uk","net","org","gov","edu","cc","de"));
+	newsys_conf("story_allowed_html",	array("br","p","pre","b","i","a"));
+	newsys_conf("story_allowed_attr",	array("href"));
+	newsys_conf("story_strip_expr",		TRUE);
+	newsys_conf("story_attr_proto",		array('href','data','src','action'));
+	newsys_conf("story_allowed_proto",	array("http","https","news","ftp"));
+
+	newsys_conf("story_del_rebuild",	TRUE);
+
+	newsys_conf("allow_join",		TRUE);
+
+	newsys_conf("dbh_host",			"@@DBH_HOST@@");
+	newsys_conf("dbh_username",		"@@DBH_USERNAME@@");
+	newsys_conf("dbh_password",		"@@DBH_PASSWORD@@");
+	newsys_conf("dbh_database",		"@@DBH_DATABASE@@");
+	newsys_conf("dbh_type",			"@@DBH_TYPE@@");
+
+	newsys_conf("overview_break",		"%break%");
+
+	newsys_conf("of_type",			"HTML");
+
+	newsys_conf
+	(
+		"user_fields",
+		array
+		(
+			'first_name' =>	array
+					(
+						'name'		=> "First Name",
+						'type'		=> "text",
+						'database_type'	=> "VARCHAR(25)",
+						'validation'	=> '/\w+/',
+						'default_value'	=> "",
+						'required'	=> TRUE,
+						'error_msg'	=> "Please enter your first name.",
+						'parse'		=> NEWSYS_STR_NONE
+					),
+			'last_name' =>	array
+					(
+						'name'		=> "Last Name",
+						'type'		=> "text",
+						'database_type'	=> "VARCHAR(25)",
+						'validation'	=> '/\w+/',
+						'default_value'	=> "",
+						'required'	=> TRUE,
+						'error_msg'	=> "Please enter your last name.",
+						'parse'		=> NEWSYS_STR_NONE
+					),
+			'homepage' =>	array
+					(
+						'name'		=> "Homepage",
+						'type'		=> "text",
+						'database_type'	=> "VARCHAR(40)",
+						'validation'	=> "!^http://[a-z0-9-]+\\.[a-z0-9.-]!i",
+						'default_value'	=> "http://",
+						'required'	=> FALSE,
+						'error_msg'	=> "",
+						'parse'		=> NEWSYS_STR_NONE
+					)
+		)
+	);
+
+	newsys_conf
+	(
+		"story_fields",
+		array
+		(
+		)
+	);
+
+	newsys_conf
+	(
+		"comment_fields",
+		array
+		(
+		)
+	);
+
+	newsys_conf
+	(
+		"levels",
+		array
+		(
+			NEWSYS_COMMENTER	=> "Commenter",
+			NEWSYS_REGULAR		=> "Regular",
+			NEWSYS_ADMIN		=> "Administrator"
+		)
+	);
+
+	newsys_conf("sys_root",			"/home/luser/htdocs");	# No trailing slash
+	newsys_conf("web_root",			"/~luser");		# No trailing slash
+
+	newsys_conf("error_log",		newsys_conf("sys_root") . "/../newsys/errors.txt");
+	newsys_conf("mail_errors",		FALSE);
+	newsys_conf("show_errors",		FALSE);
+	newsys_conf("trigger_errors",		FALSE);
+
+	newsys_conf
+	(
+		"xml_files",
+		array
+		(
+			NEWSYS_XML_STORIES => newsys_conf("sys_root") . "/newsys-stories.xml"
+		)
+	);
+
+	newsys_conf("path",			"/newsys");
+
+	newsys_conf("site_name",		"My Site");
+	newsys_conf("site_uri",			"http://www.mysite.com");
+	newsys_conf("site_email",		"@@EMAIL@@");
+	newsys_conf("site_desc",		"Welcome to the Web site about foo...");
+
+	newsys_conf("cache_dir",		newsys_conf("sys_root") . "/../newsys/cache");
+	newsys_conf("use_cache",		TRUE);
+	newsys_conf("templates_dir",		newsys_conf("sys_root") . "/../newsys/templates");
+	newsys_conf("temp_dir",			"/tmp");
+
+	newsys_conf("crypt_key",		'@@CRYPT_KEY@@');
+?>

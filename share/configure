@@ -1,0 +1,141 @@
+#!/bin/sh
+# newsys configure script
+
+# setup default values
+installdir=/var/www/htdocs
+overridephp=no
+overridecpl=no
+cache_dir=
+template_dir=
+
+################################################################################
+# parse arguments
+for argopt
+do
+	case $argopt in
+		-*=*)
+			argval=`echo $argopt | sed 's/^[^=]*=//'`
+			;;
+	esac
+
+	case $argopt in
+		--help)
+			cat <<EOF
+newsys configure script
+Usage: ./configure [options]
+
+Option				Description			Default value
+
+--help				Display this help information
+--installdir=PATH		Target installation directory	$installdir
+--override-php			Override confirmation of PHP
+--override-cpl			Override confirmation of CPL
+
+EOF
+			exit 0
+			;;
+		--installdir=*)
+			installdir=$argval
+			;;
+		--override-php)
+			overridephp=yes
+			;;
+		--override-cpl)
+			overridecpl=yes
+			;;
+		--cache-dir=*)
+			cache_dir=$argval
+			;;
+		--templates-dir=*|--template-dir=*)
+			template_dir=$argval
+			;;
+		*)
+			;;
+	esac
+done
+
+################################################################################
+
+newsysversion=`cat src/newsys.inc | grep 'define("NEWSYS_VERSION"' |
+		sed -e 's/^.*NEWSYS_VERSION"//' -e 's/^[^"]*"//' \
+			-e 's/".*$//'`
+
+# display version information
+echo "configuring newsys v$newsysversion"
+
+echo "installing to $installdir"
+
+################################################################################
+# confirm PHP installation
+if [ $overridephp == "no" ]; then
+	cat <<EOF
+
+you must have PHP installed to install newsys
+if you do not, it will not function
+you can download and install PHP for free from
+http://www.php.net/
+
+you can press Control-C to fetch and install
+PHP if you need to now
+
+EOF
+
+	sleep 3
+fi
+
+# confirm CPL installation
+if [ $overridecpl == "no" ]; then
+	cat <<EOF
+
+you will also need to have installed a few
+CPL (Common PHP Libraries) which are also
+freely available and can be downloaded from
+http://www.easyphp.net/scripts/cpl/
+
+you can press Control-C to fetch and install
+CPL if you need to now
+
+EOF
+
+	sleep 3
+fi
+
+# get username
+echo -n "newsys administrator username: "
+read username
+
+password=
+
+while
+	[ "x$password" == "x" ]
+do
+	echo -n "newsys administrator password: "
+	stty -echo 2>/dev/null
+	read password
+	stty echo 2>/dev/null
+
+	echo
+
+	echo -n "confirm password: "
+	stty -echo 2>/dev/null
+	read pwd_confirm
+	stty echo 2>/dev/null
+
+	echo
+
+	if [ "$password" != "$pwd_confirm" ]; then
+		echo "your passwords don't match"
+		password=
+	fi
+done
+
+echo -n "newsys password key: "
+read passkey
+
+# generate Makefile
+cat Makefile.tmpl | sed	-e "s!%%USERNAME%%!$username!"		\
+			-e "s!%%PASSWORD%%!$password!"		\
+			-e "s!%%PASSKEY%%!$passkey!"		\
+			-e "s!%%INSTALLDIR%%!$installdir!" > Makefile
+
+exit 0

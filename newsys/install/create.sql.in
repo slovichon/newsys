@@ -1,0 +1,114 @@
+/*
+ * By Jared Yanovich <jaredy@closeedge.net>
+ * Thursday, March 27, 2003 08:20:11 PM
+ * Newsys SQL dump file for database creation.
+ */
+
+DROP TABLE IF EXISTS newsys_users;
+
+CREATE TABLE newsys_users
+(
+	user_id				@@USERS@@INT			NOT NULL	AUTO_INCREMENT,
+	username			VARCHAR(@@USERNAME_LEN@@)	NOT NULL,
+	password			CHAR(@@PASSWORD_LEN@@)		NOT NULL,
+	/* Perhaps we should be using a tinyint(1) here? */
+	type				ENUM('1','2','3')		NOT NULL,
+
+	/* The next fields are for when a user changes their e-mail address */
+	new_password			CHAR(@@PASSWORD_LEN@@),
+	recover_key			CHAR(20),
+
+	/* When cancelling an account */
+	cancel_key			CHAR(20),
+
+	email				VARCHAR(@@EMAIL_LEN@@),
+
+	/* User-defined preferences */
+	pref_time_format		VARCHAR(30),
+	pref_default_result_limit	INT,
+	pref_default_page_limit		INT,
+	pref_overview_break		VARCHAR(20),
+
+	PRIMARY KEY(user_id),
+	UNIQUE(user_id),
+	UNIQUE(username)
+);
+
+DROP TABLE IF EXISTS newsys_stories;
+
+CREATE TABLE newsys_stories
+(
+	story_id	@@STORIES@@INT			NOT NULL	AUTO_INCREMENT,
+	author_id	@@USERS@@INT			NOT NULL,
+	headline	VARCHAR(@@HEADLINE_LEN@@)	NOT NULL,
+	overview	VARCHAR(@@OVERVIEW_LEN@@)	NOT NULL,
+	story		@@STORY_SIZE@@TEXT		NOT NULL,
+	create_date	TIMESTAMP,
+	mod_date	TIMESTAMP,
+	num_comments	INT				NOT NULL			DEFAULT 0,
+
+	/* Whether or not further comments can be posted */
+	allow_comments	BOOL								DEFAULT 1,
+
+	PRIMARY KEY(story_id),
+	UNIQUE(story_id)
+);
+
+DROP TABLE IF EXISTS newsys_comments;
+
+CREATE TABLE newsys_comments
+(
+	story_id		@@STORIES@@INT			NOT NULL,
+	comment_id		@@COMMENTS@@INT			NOT NULL,
+	author_id		@@USERS@@INT			NOT NULL,
+	subject			VARCHAR(@@SUBJECT_LEN@@)	NOT NULL,
+	comment			@@COMMENT_SIZE@@TEXT		NOT NULL,
+	create_date		TIMESTAMP,
+	mod_date		TIMESTAMP,
+
+	/* For hierarchical commenting */
+	parent_comment_id	@@COMMENTS@@INT			NOT NULL	DEFAULT 0,
+
+	INDEX(story_id),
+	INDEX(comment_id)
+);
+
+/*
+DROP TABLE IF EXISTS newsys_last_stories;
+
+CREATE TABLE newsys_last_stories
+(
+	story_id	INT		NOT NULL,
+	author_id	INT		NOT NULL,
+	create_date	TIMESTAMP,
+
+	PRIMARY KEY(story_id),
+	INDEX(author_id)
+);
+*/
+
+DROP TABLE IF EXISTS newsys_config;
+
+/* using variables seems to be too database-specific */
+CREATE TABLE newsys_config
+(
+	crypt_key_sig		VARCHAR(@@CRYPT_KEY_LEN@@),
+
+	user_fields_sig		TEXT,
+	story_fields_sig	TEXT,
+	comment_fields_sig	TEXT
+);
+
+/* Enter first user info */
+INSERT INTO newsys_users
+(
+	username,
+	password,
+	email,
+	type
+) VALUES (
+	'@@USERNAME@@',
+	'@@PASSWORD@@',
+	'@@EMAIL@@',
+	'3'
+);

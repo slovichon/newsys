@@ -1,0 +1,6 @@
+# Compare mod time against cached version
+# Arguments: 0 -> story ID
+
+file:$cache_dir/info-story-$args[0]
+
+#file:$cache_dir/info-user-$user_id

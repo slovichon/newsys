@@ -1,0 +1,4 @@
+# Compare mod time against cached version
+# Arguments: 0 -> user ID
+
+file:$cache_dir/info-user-$args[0]

@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en-US" xml:lang="en-US" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>newsys install</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<style type="text/css">
+			body
+			{
+				font-family:Verdana,Tahoma,Sans-Serif;
+				background-color:#336699;
+				color:#FFFFFF;
+			}
+
+			p
+			{
+				font-size:14px;
+			}
+
+			hr
+			{
+				color:#FFFFFF;
+				height:1px;
+			}
+
+			div.title
+			{
+				border:1px black solid;
+				font-size:24px;
+				color:#336699;
+				background-color:#99CCFF;
+				padding:3px;
+				font-weight:bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="title">Welcome To Newsys</div>
+<!--
+<?php
+	echo "--",">";
+
+	if (FALSE)
+		echo "--><p>You do not have PHP correctly installed if you can see this message.</p><!--";
+
+	class OF
+	{
+		function p()
+		{
+			$args = func_get_args();
+			return "<p>" . join('',$args) . "</p>";
+		}
+
+		function header($msg)
+		{
+			return "<div class=\"title\">$msg</div>";
+		}
+
+		function form()
+		{
+			$args		= func_get_args();
+			$prefs		= array();
+
+			/* The first argument can be preferences */
+			if (is_array($args[0]))
+				$prefs		= array_shift($args);
+
+			$content	= join('',$args);
+
+			/* Initiate default values */
+			if (!$prefs["action"])
+				$prefs["action"] = $_SERVER["PHP_SELF"];
+
+			if (!$prefs["method"])
+				$prefs["method"] = "post";
+
+			if (!$prefs["enctype"])
+				$prefs["enctype"] = "application/x-www-form-urlencoded";
+
+			/* Build HTML */
+			$html	   = "<form action=\"{$prefs["action"]}\" method=\"{$prefs["method"]}\" enctype=\"{$prefs["enctype"]}\">$content</form>";
+
+			return $html;
+		}
+
+		function emph($msg)
+		{
+			return "<i>$msg</i>";
+		}
+	}
+
+	function gen_key()
+	{
+		$key = "";
+
+		if (CRYPT_BLOWFISH)
+		{
+			$key = '$2a$05$' . rand_str(22);
+
+		} elseif (CRYPT_MD5) {
+
+			$key = '$1$' . rand_str(8);
+
+		} elseif (CRYPT_EXT_DES) {
+
+			$key = rand_str(12);
+		} else {
+			$key = rand_str(8);
+		}
+
+		return $key;
+	}
+
+	function rand_str($size)
+	{
+		global $php_errormsg;
+
+		$rand	= "";
+		$min	= 33;	# lowest visable ascii char value
+		$max	= 126;	# highest
+
+		if (file_exists("/dev/urandom"))
+		{
+			$fp = @fopen("/dev/urandom","r");
+
+			if (!$fp)
+				die("Cannot open file; file: /dev/urandom");
+
+			$i = 0;
+
+			while ($i++ < $size)
+			{
+				warn(".");
+				$rand .= chr((ord(fread($fp,1)) % ($max - $min)) + $min);
+			}
+
+			fclose($fp);
+		} else {
+			$i = 0;
+
+			while ($i++ < $size)
+			{
+				nsecho(".");
+				$rand .= chr(mt_rand(33,126));
+			}
+		}
+
+		return $rand;
+	}
+
+	/* Output needs to reach the user asap */
+	function nsecho()
+	{
+		$args = func_get_args();
+		echo join('',$args);
+		flush();
+
+		return;
+	}
+
+	switch (@$_REQUEST["page"])
+	{
+		case 2:
+		{
+			/* User asked us to try and install CPL locally */
+			if (@$_REQUEST["cpl"])
+			{
+				if (!file_exists("../../lib"))
+					if (!@mkdir("../../lib",0700))
+					{
+						nsecho(OF::p("Warning: I could not create the directory ",OF::emph("../../lib")," in which to store the CPL libraries. I will continue with the rest of the Newsys installation, but make sure at a later time you install the CPL libraries or else Newsys will not run."));
+						break;
+					}
+
+				if (!file_exists("../../lib/php-cpl"))
+					if (!@mkdir("../../lib/php-cpl",0700))
+					{
+						nsecho(OF::p("Warning: I could not create the directory ",OF::emph("../../lib/php-cpl")," in which to store the CPL libraries. I will continue with the rest of the Newsys installation, but make sure at a later time you the install CPL libraries or else Newsys will not run."));
+						break;
+					}
+
+				$files	= array("TimeStamp.inc","OF.inc","DBH.inc");
+				$file	= "";
+
+				foreach ($files as $file)
+				{
+					if (!@copy("cpl/$file","../../lib/php-cpl"))
+					{
+						nsecho(OF::p("Warning: I could not copy a CPL library to the directory ",OF::emph("../../lib/php-cpl"),". I will continue with the rest of the Newsys installation, but make sure at a later time you install the CPL libraries or else Newsys will not run."));
+						break 2;
+					}
+				}
+
+				nsecho
+				(
+					OF::p("All independent CPL library have been installed to ",OF::emph("../../lib/php-cpl"),"."),
+					OF::p("Please take note that you will now need to additionally install dependent CPL libraries, including a driver for your particular database and output-format type. These can be obtained from http://www.easyphp.net/projects/cpl and should reside in the same CPL directory with the other libraries.")
+				);
+			}
+
+			nsecho
+			(
+				OF::p("Before the Newsys installation can complete, you must make sure that the directory holding your CPL libraries is listed in PHP's ",OF::emph(include_path)," configuration setting."),
+				OF::p("Now we will build the Newsys configuration file. This includes generation of a storage encryption key. Please wait while this key is generated."),
+			);
+
+			set_time_limit(120);
+			$key = gen_key();
+
+			nsecho(OF::p("The key has been generated."),OF::p("Building the configuration file."));
+
+
+
+
+			break;
+		}
+
+		default:
+		{
+			nsecho
+			(
+				OF::header("Welcome"),
+				OF::p("Welcome to the Newsys installation!"),
+				OF::p("There are a few things I have to do before Newsys can run properly on your system, so let's get to it.")
+			);
+
+			# Look for CPL
+			$dirs		= array("/usr/local/lib/php-cpl","/usr/lib/php-cpl","../../lib");
+			$files		= array("TimeStamp.inc","DBH.inc","OF.inc");
+			$count		= 0;
+			$dir		= "";
+			$file		= "";
+			$files_count	= count($files);
+
+			foreach ($dirs as $dir)
+			{
+			#	nsecho(OF::p("Looking for CPL in $dir..."));
+
+				if (file_exists($dir))
+				{
+					foreach ($files as $file)
+					{
+						if (file_exists($dir . "/" . $file))
+							$count++;
+					}
+				}
+
+				if ($count == $files_count)
+					break;
+
+				/* Reset the counter? */
+				#$count = 0;
+			}
+
+			if ($count != $files_count)
+			{
+				nsecho
+				(
+					OF::p("Required CPL libraries could not be found. They could either be non-existant or out-of-date. It is recommended that they be installed to a system-wide place such as /usr/local/lib/php-cpl."),
+					OF::p("If you like, I could attempt to install the CPL libraries required for this installation to your local library. Shall I?"),
+					OF::p("If you plan on having me to install CPL libraries for you, you must, before proceeding, make sure that you move the ``cpl'' directory from the Newsys source tree root into the ``src'' directory at this time. If you do not plan on having me do this, you will need to install CPL libraries by yourself at a later time."),
+					OF::form
+					(
+						array(),
+						OF::input(array('type' => "hidden",'name' => "page",	'value' => 2))
+						OF::input(array('type' => "submit",'value' => "Yes, Attempt To Install",'name' => "cpl")),
+					)
+				);
+				break;
+			}
+
+			nsecho(OF::p(""));
+
+		}
+	}
+
+	echo "<","!--";
+?>
+-->
+	</body>
+</html>

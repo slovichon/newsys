@@ -1,0 +1,6 @@
+generate a key
+gather username, password, email, password length, rdbms
+build config file
+build sql file
+install sql
+remove install.php

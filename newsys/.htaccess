@@ -1,0 +1,23 @@
+# Apache configuration file
+# .htaccess, v1.2, jaredy, Wednesday, July 31, 2002 02:30:22 AM
+
+# NOTE: Even if you are *not* running Apache, you should go
+# through this file regardless and setup congruent configurations
+# with your Web server.
+
+# This looks for the default file to display in a directory
+# `stories.php' for `newsys/'
+# `index.php' for `newsys/'  and `newsys/admin'
+DirectoryIndex summary.php index.php
+
+# Turn off viewing for *.inc files.
+#<Files ~ "*.inc">
+#	Order Deny,Allow
+#	Deny From All
+#</Files>
+
+# Set the following php.ini variables
+# Make sure that CPL is in the include_path along with wherever
+# newsys-config.inc is (it's a good idea to keep both of these
+# items *outside* or your web-accessible tree).
+#php_value include_path '.:/path/to/cpl/libraries:/path/to/where/newsys-config.inc/is'

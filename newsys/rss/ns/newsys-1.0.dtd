@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+
+<!--
+	DTD declaration for the Newsys Element Set 1.0
+	Thursday, October 10, 2002 10:47:07 PM
+
+	Authored by Jared Yanovich <jaredy@closeedge.net>
+-->
+
+<!ELEMENT timestamp (#PCDATA)>

@@ -1,0 +1,19 @@
+1) Clear out your cache 
+
+	% rm $HOME/site.com/newsys/cache/cache*
+
+2) Update your templates
+
+	% cp -R /usr/local/newsys-1.1/newsys/install/templates-dist $HOME/site.com/newsys/templates
+
+3) Run the SQL diff file
+	
+	% mysql -u $DB_USERNAME -p < /usr/local/newsys/diff/1.0-1.1.sql
+
+4) Update your configuration file
+
+	% mv	$HOME/site.com/newsys/newsys-config.inc \
+		$HOME/site.com/newsys/newsys-config.inc.old
+	% cp /usr/local/newsys-1.1/newsys/install/newsys-config.inc.in $HOME/site.com/newsys/newsys-config.inc
+	% diff -u	$HOME/site.com/newsys/newsys-config.inc.old \
+			$HOME/site.com/newsys/newsys-config.inc

@@ -1,0 +1,46 @@
+USERNAME=%%USERNAME%%
+PASSWORD=%%PASSWORD%%
+PASSKEY=%%PASSKEY%%
+INSTALLDIR=%%INSTALLDIR%%
+
+all:
+	@echo -n "generating SQL file... "
+
+	@sed	-e "s/@@PASSKEY@@/$(PASSKEY)/"		\
+		-e "s/@@USERNAME@@/$(USERNAME)/"	\
+		-e "s/@@PASSWORD@@/$(PASSWORD)/" create.sql.tmpl > create.sql
+
+	@echo "done"
+
+install:
+	@echo
+	@echo -n "symlinking installation directory... "
+
+	@ln -s src $(INSTALLDIR)/newsys
+
+	@echo "done"
+
+	@echo -n "copying configuration file... "
+
+	@sed "s/@@PASSKEY@@/$(PASSKEY)/" newsys-config.inc.tmpl > $(INSTALLDIR)/newsys-config.inc
+
+	@echo "done"
+
+distclean: clean
+cleandir: clean
+
+clean:
+	@echo -n "removing ./Makefile and ./create.sql... "
+
+	@rm -f Makefile
+	@rm -f create.sql
+
+	@echo "done"
+
+uninstall:
+	@echo -n "cleaning for $(INSTALLDIR)"
+
+	@rm -f $(INSTALLDIR)/newsys-config.inc
+	@rm -rf $(INSTALLDIR)
+
+	@echo "done"
