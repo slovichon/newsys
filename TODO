@@ -93,3 +93,108 @@ newsys_get_template($template_name,$prefs)
 editable page extensions - search.foo
 parsers, eg ms dos, pdf
 
+Custom user fields can have the following implementation briefings:
+
+Store a cache of this field information. When/If it changes, send SQL queries to change the database.
+
+IMPLEMENTATION:
+	
+	function newsys_refresh_user_fields()
+	{
+		global 	$newsys_user_fields,
+			$newsys_cache_dir;
+		
+		$temp = $newsys_user_fields;
+
+		# This is expensive
+		include("$newsys_cache_dir/cache-user-fields");
+
+		if ($temp == $newsys_user_fields)
+			return;
+
+		# Find fields in old not in new and remove them
+		# Change changed fields
+		# Add new fields
+		
+		return;
+	}
+
+#####################################################################
+
+Error constants will be generated for each field, and will be vivificated according to such:
+
+	foreach ($newsys_user_fields as $field => $prop)
+	{
+		define("E_NS_STORY_" . strToUpper($i),pow(2,$i++),1);
+	}
+
+#####################################################################
+
+$newsys_user_fields = 	array
+			(
+				"icq"	=> 	array
+						(
+							"format" 	=> "ICQ",
+							"check"		=> "icq_check_fun",
+							"errmsg"	=> "Please enter a valid ICQ number.",
+							"fatal"		=> 1
+						)
+			);
+
+#####################################################################
+
+Notes:
+	"errmsg" property could work well but is a bad idea due to user-error abstraction (it would break this)
+
+#####################################################################
+
+							"check"		=> "icq_check_fun",
+
+...
+
+	function icq_check_fun($icq)
+	{
+		return preg_match("/^\d+$/",$icq);
+	}
+
+
+IMPLEMENTATION:
+
+	if (function_exists($newsys_user_fields[$i]["check"]))
+	# Call it on inputted field value
+
+#####################################################################
+
+AND/OR:
+
+							"check"	=> "/^\d+$/",
+
+
+IMPLEMENTATION:
+	global $php_errormsg;
+
+	foreach ($newsys_user_fields as $key => $prop)
+	{
+		# This should be empty
+		$old_msg = $php_errormsg;
+
+		$ret = @preg_match($newsys_user_fields[$key]["check"],$val);
+
+		# If $php_errormsg has changed
+		if ($old_msg != $php_errormsg)
+			newsys_handle_error("Bad regex; regex: {$newsys_user_fields[$key]["check"]}");
+	
+		# Regex succeeded; bad input
+		if (!$ret)
+		{
+			if ($newsys_user_fields[$key]["fatal"])
+				$err |= constant("E_NS_STORY_" . strToUpper($key));
+			else
+				$val = "";
+		}
+	}
+		
+
+#####################################################################
+
+One for each of "stories," "comments," and "users."
