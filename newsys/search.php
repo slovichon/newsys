@@ -1,7 +1,66 @@
 <?php
+	/*
+	 * This page is the heart of displaying data
+	 * in Newsys. Here is a list of some of its
+	 * directives:
+	 *
+	 *	offset=num	start listing results starting at `num'
+	 *	show=template	explain what output format is desired
+	 *	cri_keys[]=key	select data based on a condition associated with a characteristic of a record defined by `key
+	 *	cri_vals[]=val	select data based on a condition where a given value matches a given key
+	 *	cri_ops[]=op	describe the relationship between key/value criterion
+	 *	cri_groups[]=g	describe other rules which require completion at a certain level ("group")
+	 */
 	require_once "newsys/main.inc";
 
-	$newsys_of = newsys_get_of();
+	$newsys_of		= newsys_get_of();
+	$newsys_template	= @$_REQUEST["show"];
+
+	# If no valid template is given, show a search form
+	if (!newsys_template_exists($newsys_template))
+		$newsys_template = NULL;
+
+	# Gather search criterion
+	$newsys_cri_keys	= @$_REQUEST["cri_keys"];
+	$newsys_cri_vals	= @$_REQUEST["cri_vals"];
+	$newsys_cri_ops		= @$_REQUEST["cri_ops"];
+	$newsys_cri_groups	= @$_REQUEST["cri_groups"];
+	
+	$newsys_where_clause	= "";
+	
+	if ($newsys_len = count($newsys_cri_keys))
+	{
+		$newsys_where	= array();
+
+		for ($newsys_i = 0; $newsys_i < $newsys_len; $newsys_i++)
+		{
+			if (newsys_)
+			{
+				array_push
+				(
+					$newsys_where[(int)$newsys_cri_groups[$newsys_i]],
+				);
+			}
+		}
+		
+		$newsys_sql	.= " WHERE ";
+	}
+
+	$newsys_sql		= "	SELECT
+						$newsys_template_fields
+					FROM
+						$newsys_search_tables
+					$newsys_where_clause";
+
+
+
+
+
+
+
+
+
+	
 
 	if (@$_GET["search_string"])
 	{
