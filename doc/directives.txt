@@ -1,0 +1,359 @@
+
+Newsys 1.1 Documentation
+By Jared Yanovich <jaredy@closeedge.net>
+-----------------------------------------------------------------------
+
+	
+						*time_format*
+						Time Format
+						Value type: string
+
+This format is the same as used by PHP's date() function and is used to format dates/times in output.
+-----------------------------------------------------------------------
+
+	
+						*result_limit*
+						Result Limit
+						Value type: int
+
+This value is will be the number of content items shown on any page by Newsys. An example would be the number of latest headlines or stories to display.
+-----------------------------------------------------------------------
+
+	
+						*page_limit*
+						Page Limit
+						Value type: int
+
+This value is used to determine the threshold of page jumping, i.e., the number of page links to show for output that spans multiple pages.
+-----------------------------------------------------------------------
+
+	
+						*auth_type*
+						Authentication Type
+						Value type: int
+
+This value is used to determine which authentication type should be used to authenticate users. One of the following values can be used: `NEWSYS_AUTH_SESSION' for PHP sessions, `NEWSYS_AUTH_COOKIE' for HTTP cookies, or `NEWSYS_AUTH_HTTP' for HTTP authentication.
+-----------------------------------------------------------------------
+
+	
+						*allow_comments*
+						Allow Comments
+						Value type: bool
+
+Used to determine of any form of commenting is allowed.
+-----------------------------------------------------------------------
+
+	
+						*hier_comments*
+						Hierarchical Comments
+						Value type: bool
+
+If true, this directive allows commenters to be able to comment to comments, thus allowing a hierarchical fashion of commenting as compared to the default one-dimension style.
+-----------------------------------------------------------------------
+
+	
+						*max_comments*
+						Maximum Number of Comments
+						Value type: int
+
+This directive limits the maximum number of total of times to which a story can be commented. When set to zero, no such limit is enforced.
+-----------------------------------------------------------------------
+
+	
+						*use_rss*
+						Use RSS
+						Value type: bool
+
+Whether or not rich site summaries should be automatically generated containing content from the latest stories.
+-----------------------------------------------------------------------
+
+	
+						*rss_icon*
+						RSS Icon
+						Value type: string
+
+The static URL to the rich site summary icon.
+-----------------------------------------------------------------------
+
+	
+						*story_word_length*
+						Maximum Word Length
+						Value type: int
+
+The maximum number of run-on characters permitted in a story or comment before it is forced to be broken up.
+-----------------------------------------------------------------------
+
+	
+						*story_auto_urls*
+						Automatic URLs
+						Value type: bool
+
+If set, URLs are automatically turned into HTML hyperlinks from stories and comments, regardless if the anchor tag is allowed or not.
+-----------------------------------------------------------------------
+
+	
+						*story_auto_url_tlds*
+						Automatic URL TLDs
+						Value type: array
+
+A list of top-level domains should be specified here so text such as easyphp.net can be identified as a hyperlink yet at the same time excluding text such floating-point numbers and such.
+-----------------------------------------------------------------------
+
+	
+						*story_allowed_html*
+						Allowed HTML
+						Value type: array
+
+A list of HTML tags names that will be permitted in posted stories and comments should be specifed here.
+-----------------------------------------------------------------------
+
+	
+						*story_allowed_attr*
+						Allowed HTML attributes
+						Value type: array
+
+A list of HTML tag attribute values that will be permitted in the allowable HTML tags from posted stories and comments should be specified here. All attributes not in this list are stripped from the HTML tags they are found in.
+-----------------------------------------------------------------------
+
+	
+						*story_attr_proto*
+						Protocol-checked HTML Attributes
+						Value type: array
+
+This list is used to determine which HTML tag attribute values should be checked for valid protocols.
+-----------------------------------------------------------------------
+
+	
+						*story_allowed_proto*
+						Allowed Protocols
+						Value type: array
+
+This list is used to determine which protocols should be trusted. An example of a potentially malicious protocol, perhaps from an HTML image tag might be `javascript.'
+-----------------------------------------------------------------------
+
+	
+						*allow_join*
+						Allow Anonymous Join
+						Value type: bool
+
+This directive enables or disables users from signing themselves up as commenters.
+-----------------------------------------------------------------------
+
+	
+						*dbh_host*
+						Database Host
+						Value type: string
+
+The host of the database server used to store data.
+-----------------------------------------------------------------------
+
+	
+						*dbh_username*
+						Database Username
+						Value type: string
+
+The username with which to log onto the database server.
+-----------------------------------------------------------------------
+
+	
+						*dbh_password*
+						Database Password
+						Value type: string
+
+The password with which to log onto the database server.
+-----------------------------------------------------------------------
+
+	
+						*dbh_type*
+						DBH Type
+						Value type: string
+
+The CPL DBH database type of the database server.
+-----------------------------------------------------------------------
+
+	
+						*overview_break*
+						Overview Break
+						Value type: string
+
+This directive sets the value for the string to match while parsing a recently submitted story which will determine the value to use as that story's overview. This value will be removed from the story once the overview has been gathered. An example is setting it to the value `foo' and submitting a story consisting of the story content `overview foo story,' where the overview will consist of `overview' and the story content will actually instead be `overview story.'
+-----------------------------------------------------------------------
+
+	
+						*of_type*
+						OF Type
+						Value type: string
+
+The CPL OF output format type to be used to format all output.
+-----------------------------------------------------------------------
+
+	
+						*user_fields*
+						User Fields
+						Value type: array
+
+This directive allows for custom, user-defined (probably better described as administrator-defined) fields for the particular submission, being one of user information, comment, or a story. User-defined fields themselves consist of an identifier and corresponding array of values. Keys of the `user_fields' array should correspond to these field identifiers, which should be alpha-numeric in nature starting with a alphabetical character (note that the underscore `_' character is in this case considered an alphabetical character). The corresponding array should contain the following values: `name' corresponding with the field label, `type' corresponding with the basic type of the field, `database_type' corresponding with the database type definition of the field, `validation' corresponding to a Perl-compatible regular expression (with delimiters specified) to match a valid value for content entered into this field, `default_value' corresponding to the default value a field should contain, `required' corresponding to whether its value should be required for the story/comment/user to be submitted, `error_msg' corresponding to the error message that will be returned to the user when the `validation' field is not met, and `parse' corresponding to the type of data that will be expected, and how it should be parsed.
+-----------------------------------------------------------------------
+
+	
+						*comment_fields*
+						Comment Fields
+						Value type: array
+
+Consult the `user_fields' directive.
+-----------------------------------------------------------------------
+
+	
+						*story_fields*
+						Story Fields
+						Value type: array
+
+Consult the `user_fields' directive.
+-----------------------------------------------------------------------
+
+	
+						*levels*
+						Privilege Levels
+						Value type: array
+
+This directive specifies labels for the various levels of privileges. An array specifying textular labels for these privilege levels should be specified. The currently defined privilege levels are `NEWSYS_COMMENTER,' `NEWSYS_REGULAR,' and `NEWSYS_ADMIN.'
+-----------------------------------------------------------------------
+
+	
+						*sys_root*
+						System Root
+						Value type: string
+
+This value should correspond to the absolute location on server to the Web site's root directory from the system's point of view. For example, `http://www.box.com/~user/index.php' would point to the actual file `/home/user/htdocs/index.php' and this directive's value should be set to `/home/user/htdocs'. There must not be a trailing slash in this value.
+-----------------------------------------------------------------------
+
+	
+						*web_root*
+						Web Root
+						Value type: string
+
+This value should correspond to the absolute location on the server to the Web site's root directory from the Web's point of view. For example, `http://www.box.com/~user/index.php' would point to the virtual file `/~user/index.php' and this directive's value would be `/~user'. There must not be a trailing slash in this value.
+-----------------------------------------------------------------------
+
+	
+						*error_log*
+						Error Log
+						Value type: string
+
+If set, this file will attempt to be opened and appended to in the situation that an error occurs.
+-----------------------------------------------------------------------
+
+	
+						*mail_errors*
+						Mail Errors
+						Value type: bool
+
+If set, error messages will be mailed to the administrator according to the `admin_email' directive in the situation that an error occurs.
+-----------------------------------------------------------------------
+
+	
+						*show_errors*
+						Show Errors
+						Value type: bool
+
+If set, error messages will be displayed on standard output, i.e., directly on the Web page. This is not recommended to be turned on in production environments.
+-----------------------------------------------------------------------
+
+	
+						*trigger_errors*
+						Trigger Errors
+						Value type: bool
+
+If set, the PHP function trigger_error() will be invoked, thus enabling an administrator to define his own custom error-handling routines.
+-----------------------------------------------------------------------
+
+	
+						*xml_files*
+						XML_FILES
+						Value type: array
+
+This value should be an array of XML file type and location pairs. Currently defined keys for this value include `NEWSYS_XML_STORIES' corresponding to the absolute location on the server to the RSS data file.
+-----------------------------------------------------------------------
+
+	
+						*path*
+						Path
+						Value type: string
+
+This value is used in two places, the first of which being the value relative to the Web site's root to the installation of Newsys from that of the Web's point of view and the second of which being the value from that of the system's point of view. An example would be `/newsys,' which is the location to the Newsys root directory for both the Web (`http://www.box.com/~user/newsys/stories.php' yielded from `http://www.box.com/~user,' the Web site root from the Web's point of view and `/newsys,' the Newsys root from the Web site's root) and the system (`/home/user/htdocs/newsys' yielded from `/home/user/htdocs,' the Web site root from the system's point of view and `/newsys,' the Newsys root from the Web site's root) with this directive holding the value `/newsys.' There currently is no way to distinguish the two uses for this value.
+-----------------------------------------------------------------------
+
+	
+						*site_name*
+						Site Name
+						Value type: string
+
+This directive should hold the value of the name of the Web site.
+-----------------------------------------------------------------------
+
+	
+						*site_uri*
+						Site URI
+						Value type: string
+
+This directive should hold the base address to the root of the Web site, for example `http://www.box.com/~user' or `http://www.box.com.' There must not be a trailing slash in this value.
+-----------------------------------------------------------------------
+
+	
+						*site_email*
+						Site E-mail
+						Value type: string
+
+This directive should hold the administrator's e-mail address.
+-----------------------------------------------------------------------
+
+	
+						*site_desc*
+						Site Description
+						Value type: string
+
+This directive should hold a description of the Web site on which Newsys is running which is used in situations such as RSS generation.
+-----------------------------------------------------------------------
+
+	
+						*cache_dir*
+						Cache Directory
+						Value type: string
+
+This value should hold the absolute system path to Newsys' cache directory which it uses to save story and etc. output.
+-----------------------------------------------------------------------
+
+	
+						*use_cache*
+						Use Cache
+						Value type: bool
+
+Whether or not to use the cache and save the output of various operations that Newsys performs.
+-----------------------------------------------------------------------
+
+	
+						*templates_dir*
+						Templates Directory
+						Value type: string
+
+The absolute location on the Web server where the templates directory resides.
+-----------------------------------------------------------------------
+
+	
+						*temp_dir*
+						Temporary Directory
+						Value type: string
+
+The absolute location on the Web server where the temporary directory resides which allows the user Newsys runs as to create, modify, and remove files within.
+-----------------------------------------------------------------------
+
+	
+						*crypt_key*
+						Crypto Key
+						Value type: string
+
+This value should be automatically generated by Newsys during installation and should never need administrator modification, except perhaps in the case of a Newsys cloning or similiar. Its value is as a key to cryptographic functions to encrypt data in various places. This value should certainly not be made public.
+-----------------------------------------------------------------------
+
+
+Newsys 1.1 Documentation

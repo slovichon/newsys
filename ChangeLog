@@ -1,0 +1,98 @@
+$Id$
+
+1.2
+	Split up newsys.inc into several pieces, a very good thing
+	Prefix user-defined fields with `ud_'
+	define NEWSYS_SKIP_CHECK (skips initialization checks) for pages that don't need it
+	renamed error constants from E_NS_ to E_NEWSYS_
+1.1
+	Added a subject to comments by default
+	Renamed a lot of the internal workings to a more logical naming format
+	Tons of bug fixes and optimizations
+	Added many new options, such as allowable HTML attributes and HTML attributes to be stripped of dangerous URI protocols
+	Added support for CPL's OF (output-formatting) encapsulation library to easily support different output formats
+	Highly increased flexibility in controlling Newsys' output
+	Added an option to turn on/off the use of the cache
+	Added an option to empty out the cache
+	Added user-defined fields for users, stories, and comments
+	Added an option and changed the commentting sub-system to allow the commentting system to be hierarchical
+	Highly upgraded the quality and security of the authentication and storage systems
+	Added support for PHP's session functionality into the authorization system
+	Added support for PHP 4.1.x and higher super-globals -- note that this breaks compatibility with anything before PHP 4.1.x
+	Added descriptions to most administrative actions
+	Made logical updates to badly named API calls
+	Fixed a few more bugs with users not being forwarded to the action panel after logging in
+	Rewrote the interals of the caching system, more or less
+	Added posting information while posting a new story
+	Upgraded to latest versions of CPL libraries
+	Added functions to cache expensive object creation and provide a standard interface for all suggested pages
+	Simplified external requirements, namely no need for the setting of SYS_ROOT and WEB_ROOT
+	Made password-storage non-rdbms-dependent
+	Added a confirmation during user removal
+	Added cancellation of user accounts
+	Added support for RSS
+1.0.1
+	Fixed random bugs and errors
+1.0
+	Fixed a bug in the comment template which prevented the 'edit this comment' link from working functionally
+	Fixed an error in the SQL for the remove article function
+	Fixed a bug in newsys_str_parse() which prevented long words from being	broken up
+	Fixed the suggested search page from an error which prevented search results from poorly generated SQL
+	Fixed bugs with the suggested `story edit' page, newsys_str_parse(), newsys_get_story(), and newsys_save_story() which incorrectly gathered/encoded/decoded/retrieved newlines, HTML entities, and such.
+	Fixed a problem with newsys_str_parse() which incorrectly retrieved HTML entities inside HTML tags
+	Fixed a bug with blank stories being displayed after they've been deleted and the `last_stories' info file not getting updated dealing with templates
+	Fixed a bug with the suggested stories page which printed out blank stories
+	Abstracted user-error handling
+	Finished an incomplete section in the suggested ``user'' page dealing with the submit form
+	Cleaned up various portions of code
+	Fixed an error in the suggested ``archives'' page which caused display errors
+	Fixed the installation scripts
+	Upgraded to CPL DBH 1.2
+	Fixed other various errors with the suggested pages
+	Fixed an error with the cache info not being able to handle info files which hadn't been created (preventing any from ever forming)
+	Fixed errors in the default templates
+	Redesigned the default CSS stylesheet
+	Updated and created various documentation
+	Increased the default size for story headlines
+	Added routines to strip the escaping characters off of incoming data in cases where PHP's 'magic_quotes_gpc' option was set to 'on'
+1.0b5
+	Fixed more bugs with installer
+	Updated documentation
+	Changed live XML output to RSS compatibility
+	Added some more error-handling routines throughout
+	Checked for common functions in scoped declaration before redeclaring
+	Removed hard-coded pathes to required scripts/libraries/etc - now relies on include pathes
+	Added newsys namespace for RSS data
+	Added basic support for a hierarchical commenting system
+	Converted many pages to a shorter scope by prefixing all variables within them with `ns_'
+	Reorganized the directory structure, specifically for the cache and templates, necessary for multi-site capabilities
+	Started conversion from error strings to error codes and suggested associated error strings
+	Removed PHP 4.1.x-only support (as many hosts are not running upgraded software)
+	Rewrote the auto-hyperlinking utility in newsys_str_parse() when stories/comments are added
+	Added error-checking in other miscellaenous other functions, such as newsys_add_comment()
+	Rewrote functions to return with no value rather than typically returning the value as returned by DBH::query() (Note: not all functions have been changed)
+	Added various file-handle checking throughout functions, such as newsys_get_template()
+	Removed double string parsing between newsys library calls and suggested pages
+	Fixed a bug in newsys_create_user() and newsys_save_user_info() which didn't properly allow for user homepage specification
+	Added admin action menu after every admin page action
+1.0b4
+	Installer script is almost complete
+	Reorganized newsys.inc
+	Abstracted a large section of the core engine
+	Fixed '...' turning into hyperlinks in newsys_str_parse()
+	Fixed another bug in the XML handling functions
+1.0b3
+	Added support for PHP 4.1.0
+	Fixed a few dependencies on required cache files that weren't there
+	Fixed a bug with quote-padded incoming data which altered input
+	Fixed an error with HTTP Authentication
+	Fixed a bug with caching comments
+	Fixed a bug with out-of-range story requests
+	Cleaned up the default CSS stylesheet
+1.0b2
+	Fixed some security issues with HTTP authentication
+	Added partial HTML-stripping instead of universal
+	Removed universal HTML-stripping support (still present, but controlled in a new way)
+	Fixed some security issues with log-in URL redirecting
+	Added support for CPL (common PHP libraries)
+	Added logging-out support

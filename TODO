@@ -1,0 +1,95 @@
+$Id$
+
+-------DONE-------
+Add a `subject' field to comments
+Web-based installer
+changed users from 4 types to 3
+newsys_help_get_id() - returns the ID of a help item, either constant or string with unknown detection
+Wrap configuration settings in a newsys_conf() call
+remove chdir() calls
+fix CSS expression() XSS holes
+make sure all output functions handle $of instead of creating their own
+Some scripts use variables in the global scope which can collide with other variables which might be
+	present in a page that includes a newsys page, overwriting the original (your) script variable's value.
+	'ns' -> 'newsys' var scope in suggested pages
+join join.php and admin/user-add.php to a single file? is_logged_in() ?
+optimize remove_info() to not do any thing when target data is not found
+The function mail_is_valid() checks for a valid e-mail address. In some cases, when a user's
+	e-mail service provider is not "properly" configured, this function will end up returning
+	information that the particular e-mail address is invalid when in actuality it may not be.
+prefix user-defined fields with 'ud_' or 'cust_' or something for namespace conflict avoidal
+stop CLRF injection in mail() calls
+
+------PENDING------
+check form posts for HTTP_REFERERs within the domain?
+add NEWSYS_SKIP_CHECK to pages that don't need it
+	create optimizations in pages that don't need it
+when diffing the current database with new user fields, if the value is required, append
+	'default "$default_value"' to SQL ALTER ADD statement
+
+---------TODO----------
+revisions to the caching engine:
+	-removal
+	-revision
+		all in one file? - thread-safe
+			create toc at the beginning
+		compress it when its not open?
+in providing user preferences, should admin values be cached and compared between each invocation
+	to make sure user prefs do not surpass default/max values?
+web-based front-end for admins to edit newsys-config.inc settings
+(cache?) compression support
+make sql more ansi sql-compliant and less mysql-specific
+add a 'preview' button to 'add story/add comment'
+option to estimate max field size during install
+convert user.php and other worthless files into the core 'search' file
+checkbox/radio/etc support to user-defined fields
+xrss - extensible rss - would allow flexibility in rss generation
+	-requires me to learn a lot more about rss
+calendar-display-like search results, drop-down menu for year
+richer-feature parsing/expiration engine
+	eg directives: file-$FILE, template-$TYPE-$ID
+per-user preferences (# results to display, etc)
+	'last login' field for users to determine 'what's new'
+
+crypt user sessions
+	Make another key for the user sessions to encrypt with it instead - keys a,b data c -> b(a(c)) == a(b(c)) ?
+dynamic templates? php code in generation?
+sessions can be optimized to not enough connect to rdbms during an auth session [disadvantage:
+	admins don't use much resources typically]
+after story removal, should the rss generator replace the latest story or just eliminate the removed story?
+during validation rejection, old values should be used as defaults in form fields
+make adjustments to 'overview' field
+Add templates to space templates (<hr /> between stories)
+add an option to prohibit js in various HTML attributes
+when serious configuration options are changed, should data be rebuilt? (eg, hier_comments)
+
+The automatic link-from-URL building algorithm is not perfect. It will miss some URLs (as well as turn non-URLs
+	into hyperlinks). Please report any bugs you find to the authors in the doc/AUTHORS file.
+After clearing the cache, sometimes error messages will arise the first time a new cached template output is generated.
+Some newsys scripts use chdir() to more easily handle file manipulation routines. They assume in their
+	default context some directories to be relative to the value in include_path. Make sure '.' is
+	in your include_path and the order in which these directories are searched for file inclusion are sane.
+
+Due to some browsers and caching issues (with the browser), when logging in without using log-in
+	redirection (when you click on an action before authorizing yourself, then are asked to
+	log-in, and are aftewards redirected to the original, appropriate page to fulfill the desired
+	action), the log-in page can redirect to itself, in theory presenting the user with a list of
+	actions, but will instead see the log-in page present in their browser's cache.
+The 'newsys_use_cache' option, when turned off, doesn't *really* not utilize the caching system. Some caching
+	is still required, such as the information containing which stories are the latest, or if special
+	configuration options have been changed which will require some rebuilding. *Some* alternative
+	methods exist (such as re-querying the database, in the case of the 'latest_stories' info cache).
+add 'show all results' when *_limit are set to 0
+add a 'max_comment_threshold' var to limit the maximum depth hier commenting can reach
+allow stories to span multiple pages
+add a 'page_break' directive to distinguish when story pages should be broken up
+'allow_comment_edit' option
+img on the fly to protect email spam
+emoticons
+add a buttload of options to the command line installer for verbosity granularity and batch processing
+newsys_get_template($template_name,$prefs)
+	-- remove $dbh and always specify the data
+		-- allows speedups such as     while ($r=$dbh->fetch){get_template($tmpl,$r)}
+editable page extensions - search.foo
+parsers, eg ms dos, pdf
+

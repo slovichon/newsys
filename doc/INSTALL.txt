@@ -1,0 +1,114 @@
+Newsys 1.1 Documentation
+By Jared Yanovich <jaredy@closeedge.net>
+------------------------------------------------------------------------
+
+Installation
+
+	Installation of Newsys is relatively a straight-forward process.
+Once the package is unzipped, you should end up with a `newsys'
+directory inside the directory which emerged from the unzipping process:
+
+	$ tar zxf newsys-1.1.tar.gz
+	$ cd newsys-1.1
+	$ ls newsys
+
+This `newsys' directory contains all the libraries and suggested scripts
+used by Newsys. It also contains many other goodies. Copy this to the
+ideal location, for example, your Web site root:
+
+	$ cp -R newsys ~/public_html
+	$ ls ~/public_html/newsys
+
+Next, you can go into automatic configuration or stay in manual. Should
+you decide to go into automatic installation, load up, in this case:
+
+	http://yourdomain.com/~you/newsys/install/web-install.php
+
+This is the file that is located here:
+`newsys-1.1/newsys/install/web-install.php' You can follow the rest of
+the installation steps from here.
+
+You also have the choice of using the command-line installer. A PHP CLI
+binary is required for this procedure however. Simply run:
+
+	$ php newsys/install/cmd-install.php
+
+And follow the procedures.
+
+Should you decide to go it alone, here are the tasks that need to be
+done:
+
+1) SQL must be generated and run on a database server. You will have to
+edit `newsys/install/create.sql.in' and change all `@@VARS@@' with their
+appropriate values. Here are the list of variables:
+
+	@@PASSWORD_LEN@@	The length of encrypted passwords
+	@@CRYPT_KEY_LEN@@	The length of the key used to encrypt
+				passwords
+	@@USERNAME@@		The first Newsys administrator account
+				username
+	@@PASSWORD@@		The first Newsys administrator account 
+				*encrypted* password
+	@@EMAIL@@		The first Newsys administrator account
+				e-mail address
+
+You may select from the following values for the length of the
+password/key (in this order):
+	
+	If your system supports		Password length	Crypt key length
+	----------------------------------------------------------------
+	Blowfish			60		29
+	MD5				34		15
+	Extended DES			13		9
+	Default				13		2
+
+The encrypted password, as noted above, will be the value returned by 
+the internal Newsys API function `newsys_crypt()'. However, to use this,
+you will first need to generate a crypto key. You can use the following
+script to accomplish both of these tasks:
+
+	<?php
+		# This is to prevent Newsys from interacting
+		# with the environment
+		define('NEWSYS_SKIP_CHECK',TRUE,TRUE);
+
+		# Load the Newsys libraries
+		require "path/to/newsys/newsys.inc";
+
+		# Generate a crypto key
+		$key = newsys_t_gen_key();
+
+		echo "Put this key in newsys-config.inc: $key\n";
+
+		# Inform Newsys of our key
+		newsys_conf('crypt_key',$key);
+
+		# YOUR PASSWORD HERE
+		$password = "s3cret";
+
+		$enc_password = newsys_crypt($password);
+
+		echo "Your encrypted password is: $enc_password\n";
+	?>
+
+2) Newsys must be configured. As noted in step (1), this requires
+generated a crypto key. If using the script given above, save the key
+found in the output of that script as the `crypt_key' directive value
+found in `newsys-config.inc'. Consult `doc/directives' for more
+information on the different types of values that should be given
+to Newsys directives as defined in `newsys-config.inc'.
+
+3) Set up the templates. There is a default set of templates located in
+`newsys/install/templates-dist' which provide basic functionality. The
+template system provides lots of control over the output that Newsys
+generates. Consult `doc/templates' for more information on the Newsys
+templation system.
+
+4) Set up the cache. Whereever `cache_dir' is pointed to from 
+`newsys-config.inc', the permissions/ownership must be set correctly so
+that your Web server can read, write, and alter files in this directory.
+
+Once finished, remove the `newsys/install' directory.
+
+------------------------------------------------------------------------
+Newsys 1.1 Documentation

@@ -1,0 +1,469 @@
+<?xml version="1.0" ?>
+
+<directives>
+	<directive>
+		<id>time_format</id>
+		<name>Time Format</name>
+		<description>
+			This format is the same as used by PHP's date() function
+			and is used to format dates/times in output.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>result_limit</id>
+		<name>Result Limit</name>
+		<description>
+			This value is will be the number of content items shown
+			on any page by Newsys. An example would be the number
+			of latest headlines or stories to display.
+		</description>
+		<type>int</type>
+	</directive>
+	<directive>
+		<id>page_limit</id>
+		<name>Page Limit</name>
+		<description>
+			This value is used to determine the threshold of page
+			jumping, i.e., the number of page links to show for
+			output that spans multiple pages.
+		</description>
+		<type>int</type>
+	</directive>
+	<directive>
+		<id>auth_type</id>
+		<name>Authentication Type</name>
+		<description>
+			This value is used to determine which authentication
+			type should be used to authenticate users. One of the
+			following values can be used: `NEWSYS_AUTH_SESSION'
+			for PHP sessions, `NEWSYS_AUTH_COOKIE' for HTTP cookies,
+			or `NEWSYS_AUTH_HTTP' for HTTP authentication.
+		</description>
+		<type>int</type>
+	</directive>
+	<directive>
+		<id>allow_comments</id>
+		<name>Allow Comments</name>
+		<description>
+			Used to determine of any form of commenting is allowed.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>hier_comments</id>
+		<name>Hierarchical Comments</name>
+		<description>
+			If true, this directive allows commenters to be able to
+			comment to comments, thus allowing a hierarchical fashion
+			of commenting as compared to the default one-dimension
+			style.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>max_comments</id>
+		<name>Maximum Number of Comments</name>
+		<description>
+			This directive limits the maximum number of total of times
+			to which a story can be commented. When set to zero, no
+			such limit is enforced.
+		</description>
+		<type>int</type>
+	</directive>
+	<directive>
+		<id>use_rss</id>
+		<name>Use RSS</name>
+		<description>
+			Whether or not rich site summaries should be automatically
+			generated containing content from the latest stories.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>rss_icon</id>
+		<name>RSS Icon</name>
+		<description>
+			The static URL to the rich site summary icon.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>story_word_length</id>
+		<name>Maximum Word Length</name>
+		<description>
+			The maximum number of run-on characters permitted in a
+			story or comment before it is forced to be broken up.
+		</description>
+		<type>int</type>
+	</directive>
+	<directive>
+		<id>story_auto_urls</id>
+		<name>Automatic URLs</name>
+		<description>
+			If set, URLs are automatically turned into HTML hyperlinks
+			from stories and comments, regardless if the anchor tag is
+			allowed or not.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>story_auto_url_tlds</id>
+		<name>Automatic URL TLDs</name>
+		<description>
+			A list of top-level domains should be specified here so
+			text such as easyphp.net can be identified as a hyperlink
+			yet at the same time excluding text such floating-point
+			numbers and such.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>story_allowed_html</id>
+		<name>Allowed HTML</name>
+		<description>
+			A list of HTML tags names that will be permitted in posted
+			stories and comments should be specifed here.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>story_allowed_attr</id>
+		<name>Allowed HTML attributes</name>
+		<description>
+			A list of HTML tag attribute values that will be permitted
+			in the allowable HTML tags from posted stories and comments
+			should be specified here. All attributes not in this list
+			are stripped from the HTML tags they are found in.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>story_attr_proto</id>
+		<name>Protocol-checked HTML Attributes</name>
+		<description>
+			This list is used to determine which HTML tag attribute values
+			should be checked for valid protocols.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>story_allowed_proto</id>
+		<name>Allowed Protocols</name>
+		<description>
+			This list is used to determine which protocols should be
+			trusted. An example of a potentially malicious protocol, perhaps
+			from an HTML image tag might be `javascript.'
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>allow_join</id>
+		<name>Allow Anonymous Join</name>
+		<description>
+			This directive enables or disables users from signing themselves
+			up as commenters.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>dbh_host</id>
+		<name>Database Host</name>
+		<description>
+			The host of the database server used to store data.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>dbh_username</id>
+		<name>Database Username</name>
+		<description>
+			The username with which to log onto the database server.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>dbh_password</id>
+		<name>Database Password</name>
+		<description>
+			The password with which to log onto the database server.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>dbh_type</id>
+		<name>DBH Type</name>
+		<description>
+			The CPL DBH database type of the database server.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>overview_break</id>
+		<name>Overview Break</name>
+		<description>
+			This directive sets the value for the string to match while
+			parsing a recently submitted story which will determine the
+			value to use as that story's overview. This value will be
+			removed from the story once the overview has been gathered.
+			An example is setting it to the value `foo' and submitting
+			a story consisting of the story content `overview foo story,'
+			where the overview will consist of `overview' and the story
+			content will actually instead be `overview story.'
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>of_type</id>
+		<name>OF Type</name>
+		<description>
+			The CPL OF output format type to be used to format all output.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>user_fields</id>
+		<name>User Fields</name>
+		<description>
+			This directive allows for custom, user-defined (probably better
+			described as administrator-defined) fields for the particular
+			submission, being one of user information, comment, or a story.
+			User-defined fields themselves consist of an identifier and
+			corresponding array of values. Keys of the `user_fields' array
+			should correspond to these field identifiers, which should be
+			alpha-numeric in nature starting with a alphabetical character
+			(note that the underscore `_' character is in this case
+			considered an alphabetical character). The corresponding array
+			should contain the following values: `name' corresponding with
+			the field label, `type' corresponding with the basic type of
+			the field, `database_type' corresponding with the database
+			type definition of the field, `validation' corresponding to a
+			Perl-compatible regular expression (with delimiters specified)
+			to match a valid value for content entered into this field,
+			`default_value' corresponding to the default value a field
+			should contain, `required' corresponding to whether its value
+			should be required for the story/comment/user to be submitted,
+			`error_msg' corresponding to the error message that will be
+			returned to the user when the `validation' field is not met,
+			and `parse' corresponding to the type of data that will be
+			expected, and how it should be parsed.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>comment_fields</id>
+		<name>Comment Fields</name>
+		<description>
+			Consult the `user_fields' directive.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>story_fields</id>
+		<name>Story Fields</name>
+		<description>
+			Consult the `user_fields' directive.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>levels</id>
+		<name>Privilege Levels</name>
+		<description>
+			This directive specifies labels for the various levels of
+			privileges. An array specifying textular labels for these
+			privilege levels should be specified. The currently defined
+			privilege levels are `NEWSYS_COMMENTER,' `NEWSYS_REGULAR,'
+			and `NEWSYS_ADMIN.'
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>sys_root</id>
+		<name>System Root</name>
+		<description>
+			This value should correspond to the absolute location on
+			server to the Web site's root directory from the system's
+			point of view. For example,
+			`http://www.box.com/~user/index.php' would point to the
+			actual file `/home/user/htdocs/index.php' and this
+			directive's value should be set to `/home/user/htdocs'.
+			There must not be a trailing slash in this value.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>web_root</id>
+		<name>Web Root</name>
+		<description>
+			This value should correspond to the absolute location on
+			the server to the Web site's root directory from the Web's
+			point of view. For example,
+			`http://www.box.com/~user/index.php' would point to the
+			virtual file `/~user/index.php' and this directive's value
+			would be `/~user'. There must not be a trailing slash in
+			this value.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>error_log</id>
+		<name>Error Log</name>
+		<description>
+			If set, this file will attempt to be opened and appended to
+			in the situation that an error occurs.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>mail_errors</id>
+		<name>Mail Errors</name>
+		<description>
+			If set, error messages will be mailed to the administrator
+			according to the `admin_email' directive in the situation
+			that an error occurs.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>show_errors</id>
+		<name>Show Errors</name>
+		<description>
+			If set, error messages will be displayed on standard output,
+			i.e., directly on the Web page. This is not recommended to be
+			turned on in production environments.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>trigger_errors</id>
+		<name>Trigger Errors</name>
+		<description>
+			If set, the PHP function trigger_error() will be invoked, thus
+			enabling an administrator to define his own custom
+			error-handling routines.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>xml_files</id>
+		<name>XML_FILES</name>
+		<description>
+			This value should be an array of XML file type and location
+			pairs. Currently defined keys for this value include
+			`NEWSYS_XML_STORIES' corresponding to the absolute location
+			on the server to the RSS data file.
+		</description>
+		<type>array</type>
+	</directive>
+	<directive>
+		<id>path</id>
+		<name>Path</name>
+		<description>
+			This value is used in two places, the first of which being
+			the value relative to the Web site's root to the installation
+			of Newsys from that of the Web's point of view and the second
+			of which being the value from that of the system's point of
+			view. An example would be `/newsys,' which is the location to
+			the Newsys root directory for both the Web
+			(`http://www.box.com/~user/newsys/stories.php' yielded from
+			`http://www.box.com/~user,' the Web site root from the Web's
+			point of view and `/newsys,' the Newsys root from the Web
+			site's root) and the system (`/home/user/htdocs/newsys'
+			yielded from `/home/user/htdocs,' the Web site root from the
+			system's point of view and `/newsys,' the Newsys root from
+			the Web site's root) with this directive holding the value
+			`/newsys.' There currently is no way to distinguish the
+			two uses for this value.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>site_name</id>
+		<name>Site Name</name>
+		<description>
+			This directive should hold the value of the name of the Web
+			site.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>site_uri</id>
+		<name>Site URI</name>
+		<description>
+			This directive should hold the base address to the root of
+			the Web site, for example `http://www.box.com/~user' or
+			`http://www.box.com.' There must not be a trailing slash in
+			this value.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>site_email</id>
+		<name>Site E-mail</name>
+		<description>
+			This directive should hold the administrator's e-mail address.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>site_desc</id>
+		<name>Site Description</name>
+		<description>
+			This directive should hold a description of the Web site on
+			which Newsys is running which is used in situations such as
+			RSS generation.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>cache_dir</id>
+		<name>Cache Directory</name>
+		<description>
+			This value should hold the absolute system path to Newsys'
+			cache directory which it uses to save story and etc. output.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>use_cache</id>
+		<name>Use Cache</name>
+		<description>
+			Whether or not to use the cache and save the output of
+			various operations that Newsys performs.
+		</description>
+		<type>bool</type>
+	</directive>
+	<directive>
+		<id>templates_dir</id>
+		<name>Templates Directory</name>
+		<description>
+			The absolute location on the Web server where the templates
+			directory resides.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>temp_dir</id>
+		<name>Temporary Directory</name>
+		<description>
+			The absolute location on the Web server where the temporary
+			directory resides which allows the user Newsys runs as to
+			create, modify, and remove files within.
+		</description>
+		<type>string</type>
+	</directive>
+	<directive>
+		<id>crypt_key</id>
+		<name>Crypto Key</name>
+		<description>
+			This value should be automatically generated by Newsys
+			during installation and should never need administrator
+			modification, except perhaps in the case of a Newsys
+			cloning or similiar. Its value is as a key to cryptographic
+			functions to encrypt data in various places. This value
+			should certainly not be made public.
+		</description>
+		<type>string</type>
+	</directive>
+</directives>

@@ -1,0 +1,75 @@
+Newsys 1.1 Documentation
+By Jared Yanovich <jaredy@closeedge.net>
+------------------------------------------------------------------------
+
+User-defined Fields
+
+In Newsys, the term `user-fields' has two definitions: the general sense
+and that of the more specific one. The general sense provides the idea
+know as user-defined (user as in administrator) data fields for various
+records found in Newsys. The more specific definition is that of the
+user-defined fields for the `user' record type. Record types also exist
+for stories and comments in Newsys at the time of this writing.
+
+Most often when referring to `user-defined fields,' we are referring to
+the more general sense of concept of being able to add custom data
+fields.
+
+Examples of user-defined fields might include a first and last name for
+a user record, or an icon or category type for a story or comment. There
+is quite a lot of versitility in the concept of user-defined fields
+which gives you lots of freedom as a Newsys administrator.
+
+User-defined fields are also managed on the fly: they are controlled in
+newsys-config.inc, the Newsys configuration file, and any changes found
+in this file are taken into effect as soon as possible.
+
+As previously mentioned, user-defined fields are specified in
+newsys-config.inc. The three directives `user_fields,' `story_fields,'
+and `comment_fields' (see the directives documentation) reflect which
+fields correspond to which record types. The format for all three of
+these record types is exactly the same. Each of these directives should
+contain an array of user-defined field declarations.
+
+A user-defined field declaration is simply a name/value pair. The name
+should be a short identifier string consisting solely of lowercase and
+perhaps the underscore characters. The value should be an array
+consisting of the values name/value pairs itself:
+
+	Name		Description
+	----------------------------------------------------------------
+	name		Textual label of field
+	type		Common type of field
+	database_type	Database definition for field
+	validation	Regular expression validation requirement
+	default_value	Default value for field
+	required	Whether or not a value is required for a field
+	error_msg	The error message when validation is not met
+	parse		The type of parsing that is done on the field
+
+Current `type' values correspond HTML form input types: text, checkbox,
+textarea, etc. Not all may be supported.
+
+`database_type' is the simple definition fragment for a field, such as
+`VARCHAR(25).'
+
+If `validation' is specified, any value attempted for this field must
+meet the value of this directive as a regular expression. If this
+condition is not met, further action pends the value of this field's
+`required' property.
+
+If `required' is set and validation is not met for an attempted value,
+the error message specified by `error_msg' is thrown back to the user.
+
+If `required' is not set and validation is not met, the `default_value'
+value will be used.
+
+`parse' is one of the newsys_str_parse() types which controls what type
+of data the field contains and how it should be handled. For example,
+you may want to let HTML be entered as input here, in which case you 
+would set this value as `NEWSYS_STR_HTML' (the literal, not the string).
+Or you might want to have any and all HTML stripped from the field
+value, the case in which the value `NEWSYS_STR_NONE' should be used.
+
+------------------------------------------------------------------------
+Newsys 1.1 Documentation

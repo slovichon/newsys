@@ -1,0 +1,12 @@
+Jared Yanovich <jaredy@closeedge.net>
+
+Newsys Homepage:	http://www.easyphp.net/projects/newsys/
+EasyPHP Homepage:	http://www.easyphp.net/
+
+The developers of newsys would like to thank everyone who has made
+this project a success. This list includes, but is not limited to:
+
+Greg Fitzgerald
+"keskoy"
+Brandon Bennet
+The PHP Team and PHP Documentation Group

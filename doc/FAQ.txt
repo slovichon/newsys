@@ -1,0 +1,41 @@
+Newsys 1.1 Documentation
+By Jared Yanovich <jaredy@closeedge.net>
+------------------------------------------------------------------------
+
+Frequently Asked Questions
+
+Q: Why do I get a blank page when loading `/newsys'?
+A: This is the result of any number of misconfigurations. To be sure,
+check the server error log for specific problems. The following
+situations may have occured:
+
+	`newsys-config.inc' could not be loaded. The directory in which
+	this file is placed must exist in PHP's `include_path' directive
+	value.
+
+	CPL libraries could not be loaded. The directory in which the
+	root of the CPL libraries directory is placed must exist in
+	PHP's `include_path' directive value.
+
+	Your version of PHP is out of date. Either turn some features
+	off (such as RSS), or upgrade your version of PHP. This will be
+	pretty obvious if you check your server error log and see things
+	such as `undefined function "array_key_exists()"'.
+
+	A Newsys suggested page wasn't loaded. There is no index.html in
+	the `newsys' page, as the standard default for page loading is.
+	A common index many like to use would be `stories.php' or 
+	`summary.php'.
+
+	Other types of misconfiguration. Make sure the `sys_root' and
+	all other Newsys directives are properly configured.
+
+Q: How can I change the look of how things from Newsys output?
+A: Read the `doc/styles' and `doc/templates' documentation.
+
+Q: How can I add custom fields to stories, comments, and/or user sign-
+ups?
+A: Consult the `doc/user-fields' documentation.
+
+------------------------------------------------------------------------
+Newsys 1.1 Documentation

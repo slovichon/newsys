@@ -1,0 +1,137 @@
+Newsys 1.1 Documentation
+By Jared Yanovich <jaredy@closeedge.net>
+
+Templates Documentation
+
+Templates provide a powerful grasp over how stories should be
+displayed. With a few tidbits to keep in mind, you can easily be on
+your way to creating robust, precise templates for your site.
+
+Scope
+
+As the author of your own template, you have much freedom in things
+such as variable and function naming. There are, however, some
+pitfalls for which you should watch out.
+
+Variables definitely off-limits for purposes of changing (or using
+as custom variables in your template) are as follows:
+
+	$templates_dir		Location of the templates directory
+	$cache_dir		Location of the cache directory
+	$_use_cache		Whether or not caching has been
+				turned on
+	$_type			The template type
+	$_id			The identifier string for the
+				expansion of a template for some
+				particular input
+
+As just mentioned, you may use these variables in your templates, as
+you may need to, but it is highly recommended that you do not alter
+their values in any way.
+
+Additionally, Newsys allows you to control precise behaviors when
+dealing with template expansion and caching. The following variables
+help refine control to the Newsys administrator:
+
+	$NO_CACHE		Whether or not this particular
+				template expansion should be cached
+
+Available Resources
+
+You may use any resources you like in your templates. However, there
+are a few already provided for you by Newsys.
+
+There exists an $args variable which more or less contains arguments,
+or input parameters, for a particular template. Depending on the
+template, you may have any where from zero to many values in this
+array. They can be access with normal PHP subscript notation:
+
+	$args[0]	Always the template type, also available in
+			the variable $type (see `Scope')
+
+	$args[1]	Input arguments providing unique data for
+	$args[2]	a particular template.
+	...
+	$args[N]
+
+Default Templates
+
+You may of course use the Newsys API to create your own templates
+for other purposes than those that Newsys provides, or use the default
+ones Newsys comes with:
+
+	Type		Arguments
+	-----------------------------------------------------------
+	comment		Story ID, Comment ID
+
+		Comment display
+	-----------------------------------------------------------
+	end_comment	None
+
+		Used at the end of a nested level of hierarchical
+		comments
+	-----------------------------------------------------------
+	footer		None
+
+		Appended to most every page outputted
+	-----------------------------------------------------------
+	header		None
+
+		Prepended to most every page outputted
+	-----------------------------------------------------------
+	preview		Story ID
+
+		Used to present an overview of a story
+	-----------------------------------------------------------
+	profile		User ID
+
+		User profile
+	-----------------------------------------------------------
+	quick_footer	None
+
+		Appended to pages of less priority focusing on an
+		arbitrary topic
+	-----------------------------------------------------------
+	quick_header	None
+
+		Prepended to pages of less priority focusing on an
+		arbitrary topic
+	-----------------------------------------------------------
+	start_comment	None
+
+		Used at the start of a nested level of hierarchical
+		comments
+	-----------------------------------------------------------
+	story		Story ID
+
+		Story display
+	-----------------------------------------------------------
+
+Other Conventions
+
+Sometimes situations arise when you'd like to cancel the building of
+a template (such as a request to display a story which was deleted).
+The Newsys templation engine provides mechanics for specifying build
+failure when such a situation arises.
+
+In the template include (content structure) file, the `.inc,' the
+return status is used to indicate whether such success or failure has
+come about. A return status of zero (`0') or any false value indicates
+that something arwy has come about, the corresponding `.t' file is NOT
+sourced, and empty output is returned by the templatation engine
+(which can be checked for successful/failure templation building). A
+return status of one (`1') or any non-false value indicates success
+and the build process will continue as normal.
+
+Guidelines
+
+Let it be mentioned to sort of abstract the content layout and content
+structure, which is easily achieved (and recommended) in the Newsys
+templation system. The `.t' content layout template should be used
+solely for specifying the common output of whichever template it is
+being used for. This file should contain no computations or
+calculations. Any processing should be done in the corresponding `.inc'
+file, and saved in variables or another manner used in the `.t' file.
+
+-----------------------------------------------------------------------
+Newsys 1.1 Documentation

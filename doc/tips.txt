@@ -1,0 +1,25 @@
+Sometimes, situations occur where you might want to include part of a Newsys page as part of another page
+on your site, but require()-ing so will duplicate page headers from your Newsys header template. In this
+case, it is common to define a constant or variable, such as NEWSYS_SUPPRESS_HEADER (and one for the footer)
+and inside your template, check the existance of this variable before dumping regular output.
+
+mypage.php:
+----------------------------------
+...
+# Do my stuff, then Newsys stuff:
+define("NEWSYS_SUPPRESS_HEADER",TRUE,TRUE);
+require "newsys/stories.php";
+# Finish my stuff
+...
+----------------------------------
+
+header.inc:
+----------------------------------
+<?php
+	if (defined("NEWSYS_SUPPRESS_HEADER"))
+		return 0;
+
+	# Continue as normal
+...
+----------------------------------
+
